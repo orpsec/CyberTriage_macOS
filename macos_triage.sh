@@ -180,12 +180,12 @@ printf "\n"
 progress 1 "Sistem günlükleri"
 safe_run 300 "$LOG_BIN" collect --last "${DAYS}d" --output "$OUT/unified/system.logarchive" 2>>"$LOGFILE" \
   && note "log collect OK" || note "log collect timeout"
-safe_run 180 "$LOG_BIN" show --last "${DAYS}d" --info --debug \
+safe_run 120 "$LOG_BIN" show --last "${DAYS}d" --info \
   > "$OUT/unified/system_show.log" 2>>"$LOGFILE" \
   && note "log show OK" || {
     note "log show timeout; kısa deneniyor..."
     local_days=$(( DAYS > 3 ? 3 : DAYS ))
-    safe_run 120 "$LOG_BIN" show --last "${local_days}d" --info \
+    safe_run 60 "$LOG_BIN" show --last "${local_days}d" --info \
       > "$OUT/unified/system_show.log" 2>>"$LOGFILE"
   }
 [[ "$OS_MAJOR" -ge 26 ]] && safe_run 60 "$LOG_BIN" show --last "${DAYS}d" \
